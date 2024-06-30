@@ -15,6 +15,7 @@ let cart = []
 //abrir modal do carrinho
 cartBtn.addEventListener("click", function () {
   cartModal.style.display = "flex"
+  updateCartModal()
 })
 
 //Fechar o modal quando clicar fora
@@ -47,12 +48,48 @@ function addTocart(name, price) {
 
   if (exestingIItem) {
     exestingIItem.quatity += 1
-    return
+
+  } else {
+    cart.push({
+      name,
+      price,
+      quatity: 1,
+    })
   }
 
-  cart.push({
-    name,
-    price,
-    quatity: 1,
+  updateCartModal()
+}
+
+function updateCartModal() {
+  cartItemsContainer.innerHTML = ""
+  let total = 0
+
+  cart.forEach(item => {
+    const cartItemmElement = document.createElement("div");
+    cartItemmElement.classList.add("flex", "justify-between", "mb-4", "flex-col")
+    cartItemmElement.innerHTML = `
+    <div class="flex items-center justify-between">
+      <div>
+      <p class = "font-medium">${item.name}</p>
+      <p>Qtd: ${item.quatity}</p>
+      <p class = "font-medium mb-2">kz ${item.price.toFixed(2)}</p>
+      </div>
+
+      <button>
+        Remover
+      </button>
+  
+    </div>
+    `
+    total += item.price * item.quatity
+
+    cartItemsContainer.appendChild(cartItemmElement)
   })
+
+  cartTotal.textContent = total.toLocaleString("pt-AO", {
+    style: "currency",
+    currency: "AOA"
+  });
+
+  cartCount.innerHTML = cart.length
 }
