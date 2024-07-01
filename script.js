@@ -143,12 +143,22 @@ checkoutBtn.addEventListener("click", function () {
     addressInput.classList.add("border-red-500")
     return
   }
+
+  const cartItems = cart.map((item) => {
+    return (
+      `${item.name} quantidade: (${item.quatity}) preço: ${item.price} kz) |`
+    )
+  }).join("")
+
+  const message = encodeURIComponent(cartItems)
+  const phone = "244926614139"
+  window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`, "_blank")
 })
 
 function checkRestaurantOpen() {
   const data = new Date()
   const hora = data.getHours()
-  return hora >= 18 && hora <= 22
+  return hora >= 18 && hora <= 20
 }
 
 const spanItem = document.getElementById("date-span")
